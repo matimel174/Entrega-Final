@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "nombre": "Monitor Gamer 27\" QD-OLED 240Hz",
+    "precio": 360,
+    "categoria": "monitores",
+    "imagen": "https://imgs.search.brave.com/r8gYc20vQP8UzXJJcRb81oWZf7DOEll0NEhLYRScHLE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/aGQtdGVjbm9sb2dp/YS5jb20vaW1hZ2Vu/ZXMvYXJ0aWN1bG9z/LzIwMjUvMDEvTVNJ/LXByZXNlbnRhLWVs/LXByaW1lci1tb25p/dG9yLWdhbWVyLTRL/LWRlLTI3LXB1bGdh/ZGFzLWNvbi1RRC1P/TEVELXktMjQwSHot/ODAweDUwOS5qcGc"
+  },
+  {
+    "id": 2,
+    "nombre": "Cooler Gabinete ARGB 120mm Sentey",
+    "precio": 25,
+    "categoria": "refrigeracion",
+    "imagen": "https://imgs.search.brave.com/UKNOTfahJmXwljpxi3OV0gV9BtPghvaNJ24ATHS4MvE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/Z2FtaW5nY2l0eS5j/b20uYXIvdGh1bWIv/aW1hZ2VuXzE2NjE0/XzgwMHg4MDAuanBn"
+  },
+  {
+    "id": 3,
+    "nombre": "Gabinete ATX Corsair 4000D Black",
+    "precio": 110,
+    "categoria": "gabinetes",
+    "imagen": "https://imgs.search.brave.com/XicDptij7S0PBSaRnat372BMmDPTnbEE76w7_ufoGeE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9RX05QXzJY/XzY4MDI2MS1NTEE4/MjI5NjI4NTMwOF8w/MjIwMjUtRS53ZWJw"
+  }
+]
