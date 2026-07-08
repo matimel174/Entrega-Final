@@ -20,7 +20,9 @@ const Navbar = () => {
           <Link className="nav-link text-white mx-3" to="/productos">Catálogo</Link>
 
           {user && user.role === 'admin' && (
-            <Link className="nav-link text-white mx-3" to="/admin">Admin</Link>
+            <Link className="btn btn-warning btn-sm mx-2 fw-bold" to="/admin">
+              ⚙️ Panel Admin
+            </Link>
           )}
 
           {user ? (
