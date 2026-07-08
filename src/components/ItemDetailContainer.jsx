@@ -1,45 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import React, { useEffect, useState, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { db } from '../firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
+import { CartContext } from '../context/CartContext';
 
 const ItemDetailContainer = () => {
-  const [producto, setProducto] = useState(null);
   const { idItem } = useParams();
-  const { addToCart } = useCart();
+  const { agregarAlCarrito } = useContext(CartContext);
+  const [producto, setProducto] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/src/data/productos.json')
-      .then((res) => res.json())
-      .then((data) => {
-        const encontrado = data.find(prod => prod.id === parseInt(idItem));
-        setProducto(encontrado);
-      })
-      .catch((err) => console.error("Error al cargar el detalle:", err));
+    const obtenerProducto = async () => {
+      setLoading(true);
+      try {
+        const docRef = doc(db, "productos", idItem);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          setProducto({ id: docSnap.id, ...docSnap.data() });
+        }
+      } catch (error) {
+        console.error("Error al obtener:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (idItem) obtenerProducto();
   }, [idItem]);
 
-  if (!producto) return <p style={{ textAlign: 'center', padding: '20px' }}>Cargando especificaciones del componente...</p>;
+  if (loading) return <div className="text-center mt-5"><h3>Cargando detalles...</h3></div>;
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', backgroundColor: '#fff', padding: '30px', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-      <Link to="/productos" style={{ color: '#007bff', textDecoration: 'none', fontWeight: 'bold' }}>← Volver al catálogo</Link>
-      <div style={{ textAlign: 'center', marginTop: '20px' }}>
-        <img src={producto.imagen} alt={producto.nombre} style={{ maxWidth: '100%', maxHeight: '300px', objectFit: 'contain', borderRadius: '4px' }} />
-      </div>
-      <h2 style={{ marginTop: '20px', color: '#222' }}>{producto.nombre}</h2>
-      <p style={{ color: '#666', margin: '15px 0', lineHeight: '1.5' }}>
-        Componente de alta gama seleccionado y optimizado para máxima compatibilidad con setups de gaming y refrigeración avanzada.
-      </p>
-      <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#28a745' }}>${producto.precio}</p>
-      
-      <button 
-        onClick={() => addToCart(producto, 1)}
-        style={{
-          width: '100%', marginTop: '20px', padding: '12px', backgroundColor: '#007bff',
-          color: '#fff', border: 'none', borderRadius: '5px', fontWeight: 'bold', cursor: 'pointer'
-        }}
-      >
-        Añadir al Carrito
-      </button>
+    <div className="container mt-5">
+      {producto ? (
+        <div className="card p-4 shadow">
+          <h2>{producto.nombre}</h2>
+          <hr />
+          <p><strong>Categoría:</strong> {producto.categoria}</p>
+          <p><strong>Precio:</strong> ${producto.precio}</p>
+          <p><strong>Stock disponible:</strong> {producto.stock} unidades</p>
+          
+          <button 
+            className="btn btn-success btn-lg w-100"
+            onClick={() => agregarAlCarrito(producto, 1)}
+          >
+            Agregar al carrito
+          </button>
+        </div>
+      ) : (
+        <div className="alert alert-danger">Producto no encontrado.</div>
+      )}
     </div>
   );
 };

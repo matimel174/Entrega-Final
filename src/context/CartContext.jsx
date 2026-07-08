@@ -1,36 +1,50 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
-// 1. Creamos el contexto
-const CartContext = createContext();
+export const CartContext = createContext();
 
-// 2. Creamos el proveedor del estado
+export const useCart = () => useContext(CartContext);
+
 export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+  const [carrito, setCarrito] = useState([]);
 
-  // Función para agregar un ítem al carrito
-  const addToCart = (item, quantity) => {
-    const itemInCart = cart.find((prod) => prod.id === item.id);
-    
-    if (itemInCart) {
-      // Si ya existía, le sumamos la cantidad nueva
-      setCart(cart.map((prod) => 
-        prod.id === item.id ? { ...prod, cantidad: prod.cantidad + quantity } : prod
-      ));
-    } else {
-      // Si es nuevo, lo metemos al array con su cantidad inicial
-      setCart([...cart, { ...item, cantidad: quantity }]);
-    }
+  const agregarAlCarrito = (producto, cantidad) => {
+    setCarrito((prevCarrito) => {
+      const existe = prevCarrito.find((item) => item.id === producto.id);
+      if (existe) {
+        // si el producto ya está en el carrito, suma la cantidad en vez de duplicarlo
+        return prevCarrito.map((item) =>
+          item.id === producto.id
+            ? { ...item, cantidad: item.cantidad + cantidad }
+            : item
+        );
+      }
+      return [...prevCarrito, { ...producto, cantidad }];
+    });
   };
 
-  // Calculamos la cantidad total de productos para el contador del Navbar
-  const totalProductos = cart.reduce((acc, prod) => acc + prod.cantidad, 0);
+  const eliminarDelCarrito = (id) => {
+    setCarrito((prevCarrito) => prevCarrito.filter((item) => item.id !== id));
+  };
+
+  const vaciarCarrito = () => {
+    setCarrito([]);
+  };
+
+  const totalProductos = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+  const totalPrecio = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, totalProductos }}>
+    <CartContext.Provider
+      value={{
+        carrito,
+        agregarAlCarrito,
+        eliminarDelCarrito,
+        vaciarCarrito,
+        totalProductos,
+        totalPrecio,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
-
-// 3. Atajo (Hook personalizado) para usar el carrito fácil en cualquier componente
-export const useCart = () => useContext(CartContext);

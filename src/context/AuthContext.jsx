@@ -6,7 +6,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const login = (username, password) => {
-    // Convertimos a minúsculas para que tome "admin", "Admin" o "ADMIN" por igual
     if (username.toLowerCase() === 'admin' && password === '1234') {
       setUser({ username: 'Admin', role: 'admin' });
       return { success: true };

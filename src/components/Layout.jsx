@@ -7,12 +7,9 @@ const Layout = ({ children }) => {
       {/* Menú superior fijo */}
       <Navbar />
 
-      {/* Zona dinámica donde se va a renderizar cada página del e-commerce */}
       <main style={{ flex: 1, padding: '40px', backgroundColor: '#f5f5f5' }}>
         {children}
       </main>
-
-      {/* Footer fijo con los datos del equipo (Requerimiento #1.3) */}
       <footer style={{
         backgroundColor: '#111',
         color: '#aaa',
