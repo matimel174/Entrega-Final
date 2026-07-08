@@ -4,7 +4,6 @@ import Navbar from './Navbar';
 const Layout = ({ children }) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {/* Menú superior fijo */}
       <Navbar />
 
       <main style={{ flex: 1, padding: '40px', backgroundColor: '#f5f5f5' }}>
